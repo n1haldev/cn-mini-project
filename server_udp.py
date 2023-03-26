@@ -1,7 +1,7 @@
 import socket
 import time
 
-UDP_IP_ADDRESS = '192.168.43.26'
+UDP_IP_ADDRESS = '127.0.0.1'
 UDP_PORT_NO = 6789
 
 serverSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

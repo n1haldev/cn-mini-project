@@ -13,8 +13,8 @@ color = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 global winner
 winner=0
 
-print("nihal is good".split())
-UDP_IP='192.168.43.26'
+print("welcome")
+UDP_IP='127.0.0.1'
 UDP_PORT=6789
 
 clientSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -60,7 +60,7 @@ init(name, opp_info)
 
 print(opp_info)         # put code in while loop in a function called on button click(interact(send))
 while no_winner(name,opp_info[1]):     # replace while with if
-    send = input("Guess opponents SPY GRID(separated by ','): ")    # this send will come as argument in func interact(send)
+    send = input("Guess opponents SPY GRID: ")    # this send will come as argument in func interact(send)
     if 'client1' in opp_info[0]:
         if(int(send) < 8):
             # alert("You cannot select a grid from your own space!")
