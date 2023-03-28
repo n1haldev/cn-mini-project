@@ -88,6 +88,7 @@ def gameend():
         gameframe.pack_forget()
         gameframe.destroy()
         gameini.pack()
+        print(my_spy)
     else :
         print("--------------")
         print("Quiting")
@@ -113,6 +114,7 @@ def interact(send):
                 print("Recvd msg :",rcvdata)
                 if("WON" in rcvdata):
                     print(rcvdata)
+                    mb.showinfo("Game Status","You Won")
                     gameend()
                     return
                 elif("no" not in rcvdata):
@@ -129,6 +131,7 @@ def interact(send):
                     print("Recvd msg :",receive)
                     if("WON" in receive):
                         print(receive)
+                        mb.showinfo("Game Status","You Won")
                         gameend()
                         return
                     elif("no" not in receive):
@@ -154,6 +157,7 @@ def interact(send):
                 print("Recvd msg :",rcvdata)
                 if("WON" in rcvdata):
                     print(rcvdata)
+                    mb.showinfo("Game Status","You Won")
                     gameend()
                     return
                 elif("no" not in rcvdata):
@@ -170,6 +174,7 @@ def interact(send):
                     print("Recvd msg :",receive)
                     if("WON" in receive):
                         print(receive)
+                        mb.showinfo("Game Status","You Won")
                         gameend()
                         return
                     elif("no" not in receive):
@@ -198,6 +203,7 @@ def interact(send):
         global x
         clientSock.sendto(sendwin.encode(), (opp_info[2], int(opp_info[3])))
         if(x==1):
+            mb.showinfo("Game Status","You Lost")
             gameend()
         
         x=1
