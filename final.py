@@ -1,5 +1,4 @@
 import socket
-import select
 from tkinter import *
 from tkinter.messagebox import askyesno, showinfo, askquestion
 from tkinter.simpledialog import askstring
@@ -26,9 +25,10 @@ def gameend():
         print("----------------")
         print("Starting New Game")
         gameframe.pack_forget()
-        gameframe.destroy()
-        initiate()
-        print(my_spy)
+        #gameframe.destroy()
+        clientSock.close()
+        initiate(name)
+
     else :
         print("--------------")
         print("Quiting")
