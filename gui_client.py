@@ -61,7 +61,7 @@ def update(name, num):
 		print(scoremsg)
 
 		print("I AM SENDING : ",scoremsg)
-		clientSock.sendmsg([scoremsg.encode()], ancdata, 0, (opp_info[2], int(opp_info[3])))
+		clientSock.sendto(scoremsg.encode(), (opp_info[2], int(opp_info[3])))
 
 	else:
 		color[int_num]='red'
@@ -70,7 +70,7 @@ def update(name, num):
 		print(losemsg)
 		aux_msg=True
 		print("I AM SENDING : ",losemsg)
-		clientSock.sendmsg([losemsg.encode()], ancdata, 0, (opp_info[2], int(opp_info[3])))
+		clientSock.sendto(losemsg.encode(), (opp_info[2], int(opp_info[3])))
     
 def no_winner(name, opp_name):
     global scores,marked,color,winner
@@ -88,96 +88,113 @@ init(name, opp_info)
 def interact(send):
 
    
-	print("you clicked ",send)
+    print("you clicked ",send)
+  
+    if no_winner(name,opp_info[1]):
+        if 'client1' in opp_info[0]:
+            print("I AM SENDING : ",send)
+            clientSock.sendto(send.encode(), (opp_info[2], int(opp_info[3])))
+            rcvdata= clientSock.recv(1024)
+            print("I AM RECEIVING from rcvdata: ",rcvdata)
+            #below
+            rcvdata=rcvdata.decode()
+            if( not rcvdata.isdigit()):
+                print("Recvd msg :",rcvdata)
+                if("WON" in rcvdata):
+                    print(rcvdata)
+                    return
+                elif("no" not in rcvdata):
+                    val=rcvdata[17:]
+                    button = buttons[int(val)]
+                    button.config(bg="green")
+                else :
+                    val=rcvdata[20:]
+                    button = buttons[int(val)]
+                    button.config(bg="red")				
+                receive = clientSock.recv(1024).decode()
+                print("I AM RECEIVING  from receive: ",receive)
+                if(not receive.isdigit()):
+                    print("Recvd msg :",receive)
+                    if("WON" in receive):
+                        print(receive)
+                        return
+                    elif("no" not in receive):
+                        val=receive[17:]
+                        button = buttons[int(val)]
+                        button.config(bg="green")
+                    else :
+                        val=receive[20:]
+                        button = buttons[int(val)]
+                        button.config(bg="red")
 
-    
-	if no_winner(name,opp_info[1]):
+                else:
+                    update(opp_info[1], receive)
+            else:
 
-		if 'client1' in opp_info[0]:
-
-			print("I AM SENDING : ",send)
-			clientSock.sendto(send.encode(), (opp_info[2], int(opp_info[3])))
-
-
-			rcvdata= clientSock.recvmsg(1024)
-			print("I AM RECEIVING from rcvdata: ",rcvdata)
-			#below
-			rcvdata=rcvdata[0].decode()
-			if( not rcvdata.isdigit()):
-				print("Recvd msg :",rcvdata)
-				if("no" not in rcvdata):
-					val=rcvdata[17:]
-					button = buttons[int(val)]
-					button.config(bg="green")
-				else :
-					val=rcvdata[20:]
-					button = buttons[int(val)]
-					button.config(bg="red")				
-				receive = clientSock.recv(1024).decode()
-				print("I AM RECEIVING  from receive: ",receive)
-				if(not receive.isdigit()):
-					print("Recvd msg :",receive)
-					if("no" not in receive):
-						val=receive[17:]
-						button = buttons[int(val)]
-						button.config(bg="green")
-					else :
-						val=receive[20:]
-						button = buttons[int(val)]
-						button.config(bg="red")
-
-				else:
-			        	update(opp_info[1], receive)
-			else:
-
-				update(opp_info[1], rcvdata)
-			
-		else:
-			rcvdata= clientSock.recvmsg(1024)
-			print("I AM RECEIVING from rcvdata: ",rcvdata)
-			#below
-			rcvdata=rcvdata[0].decode()
-			if( not rcvdata.isdigit()):
-				print("Recvd msg :",rcvdata)
-				if("no" not in rcvdata):
-					val=rcvdata[17:]
-					button = buttons[int(val)]
-					button.config(bg="green")
-				else :
-					val=rcvdata[20:]
-					button = buttons[int(val)]
-					button.config(bg="red")				
-				receive = clientSock.recv(1024).decode()
-				print("I AM RECEIVING  from receive: ",receive)
-				if(not receive.isdigit()):
-					print("Recvd msg :",receive)
-					if("no" not in receive):
-						val=receive[17:]
-						button = buttons[int(val)]
-						button.config(bg="green")
-					else :
-						val=receive[20:]
-						button = buttons[int(val)]
-						button.config(bg="red")
-
-
-
-				else:
-			        	update(opp_info[1], receive)
-			else:
-
-				update(opp_info[1], rcvdata)
-			print("I AM SENDING : ",send)
-			clientSock.sendto(send.encode(), (opp_info[2], int(opp_info[3])))
-			#update(name, send)
+                update(opp_info[1], rcvdata)
+            
+        else:
+            rcvdata= clientSock.recv(1024)
+            print("I AM RECEIVING from rcvdata: ",rcvdata)
+            rcvdata=rcvdata.decode()
+            if( not rcvdata.isdigit()):
+                print("Recvd msg :",rcvdata)
+                if("WON" in rcvdata):
+                    print(rcvdata)
+                    return
+                elif("no" not in rcvdata):
+                    val=rcvdata[17:]
+                    button = buttons[int(val)]
+                    button.config(bg="green")
+                else :
+                    val=rcvdata[20:]
+                    button = buttons[int(val)]
+                    button.config(bg="red")				
+                receive = clientSock.recv(1024).decode()
+                print("I AM RECEIVING  from receive: ",receive)
+                if(not receive.isdigit()):
+                    print("Recvd msg :",receive)
+                    if("WON" in receive):
+                        print(receive)
+                        return
+                    elif("no" not in receive):
+                        val=receive[17:]
+                        button = buttons[int(val)]
+                        button.config(bg="green")
+                    else :
+                        val=receive[20:]
+                        button = buttons[int(val)]
+                        button.config(bg="red")
+                else:
+                    update(opp_info[1], receive)
+            else:
+                update(opp_info[1], rcvdata)
+            print("I AM SENDING : ",send)
+            clientSock.sendto(send.encode(), (opp_info[2], int(opp_info[3])))
+            
         
-	if not no_winner(name,opp_info[1]):
-		winmsg="THE WINNER IS: " + opp_info[1]
-		print(winmsg)
-
-		print("I AM SENDING : ",send)
-		clientSock.sendmsg([winmsg.encode()], ancdata, 0, (opp_info[2], int(opp_info[3])))
-		quit()
+    if not no_winner(name,opp_info[1]):
+        '''
+        receive = clientSock.recv(1024).decode()
+        print("I AM RECEIVING  from receive: ",receive)
+        if("no" not in receive):
+            val=receive[17:]
+            button = buttons[int(val)]
+            button.config(bg="green")
+        else :
+            val=receive[20:]
+            button = buttons[int(val)]
+            button.config(bg="red")
+        '''
+        winmsg="THE WINNER IS: " + opp_info[1]+" !! "
+        print(winmsg)
+        sendwin = "YOU WON"
+        print("I AM SENDING : ",sendwin)
+        print("YOU LOST")
+        
+        clientSock.sendto(sendwin.encode(), (opp_info[2], int(opp_info[3])))
+        return
+        #quit()
 
 root = tk.Tk()
 
