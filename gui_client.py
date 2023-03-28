@@ -1,6 +1,7 @@
 import socket
 import select
 import tkinter as tk
+from tkinter import messagebox as mb
 global scores,marked,color,winner
 global scores
 scores={}
@@ -14,12 +15,12 @@ color = [0]*16
 global winner
 winner=0
 
+global x
+x=0
+
 print("welcome")
 UDP_IP='127.0.0.1'
 UDP_PORT=6789
-
-global aux_msg
-aux_msg=False
 
 clientSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
@@ -35,9 +36,6 @@ opp_info[1] = opp_info[1][2:-1]
 print(opp_info)
 print("You are playing against ", opp_info[1])
 
-
-global ancdata
-ancdata = []
 
 global my_spy
 my_spy=input('Enter your choice of SPY grids(separater by ","): ').split(',')
@@ -82,6 +80,19 @@ def no_winner(name, opp_name):
         return False
     return True
 
+def gameend():
+    res=mb.askquestion('Game Over for '+name, 'Do you want to play another game ?')
+    if res == 'yes' :
+        print("----------------")
+        print("Starting New Game")
+        gameframe.pack_forget()
+        gameframe.destroy()
+        gameini.pack()
+    else :
+        print("--------------")
+        print("Quiting")
+        quit()
+
 # CORE!!!
 init(name, opp_info)
 
@@ -89,7 +100,7 @@ def interact(send):
 
    
     print("you clicked ",send)
-  
+
     if no_winner(name,opp_info[1]):
         if 'client1' in opp_info[0]:
             print("I AM SENDING : ",send)
@@ -102,6 +113,7 @@ def interact(send):
                 print("Recvd msg :",rcvdata)
                 if("WON" in rcvdata):
                     print(rcvdata)
+                    gameend()
                     return
                 elif("no" not in rcvdata):
                     val=rcvdata[17:]
@@ -117,6 +129,7 @@ def interact(send):
                     print("Recvd msg :",receive)
                     if("WON" in receive):
                         print(receive)
+                        gameend()
                         return
                     elif("no" not in receive):
                         val=receive[17:]
@@ -141,6 +154,7 @@ def interact(send):
                 print("Recvd msg :",rcvdata)
                 if("WON" in rcvdata):
                     print(rcvdata)
+                    gameend()
                     return
                 elif("no" not in rcvdata):
                     val=rcvdata[17:]
@@ -156,6 +170,7 @@ def interact(send):
                     print("Recvd msg :",receive)
                     if("WON" in receive):
                         print(receive)
+                        gameend()
                         return
                     elif("no" not in receive):
                         val=receive[17:]
@@ -174,46 +189,46 @@ def interact(send):
             
         
     if not no_winner(name,opp_info[1]):
-        '''
-        receive = clientSock.recv(1024).decode()
-        print("I AM RECEIVING  from receive: ",receive)
-        if("no" not in receive):
-            val=receive[17:]
-            button = buttons[int(val)]
-            button.config(bg="green")
-        else :
-            val=receive[20:]
-            button = buttons[int(val)]
-            button.config(bg="red")
-        '''
+        
         winmsg="THE WINNER IS: " + opp_info[1]+" !! "
         print(winmsg)
         sendwin = "YOU WON"
         print("I AM SENDING : ",sendwin)
         print("YOU LOST")
-        
+        global x
         clientSock.sendto(sendwin.encode(), (opp_info[2], int(opp_info[3])))
+        if(x==1):
+            gameend()
+        
+        x=1
         return
-        #quit()
+        
 
 root = tk.Tk()
 
 root.title(name)
 
+
+# GAME FRAME
+
 # Set up a grid to hold the buttons
-grid = tk.Frame(root, padx=10, pady=10)
-grid.pack()
+gameframe = tk.Frame(root, padx=10, pady=10)
+gameframe.pack()
 
 # Create and add the buttons to the grid
 buttons = []
 for i in range(16):
-    button = tk.Button(grid, text=str(i))
+    button = tk.Button(gameframe, text=str(i))
     button.config(width=3, height=3, bg="white")
     button.grid(row=i//4, column=i%4)
     buttons.append(button)
 
     # Add button commands
     button.config(command=lambda i=i: interact(str(i)))
+
+
+#GAME INITIALISE FRAME
+gameini = tk.Frame(root,padx=10,pady=10)
 
 # Run the GUI mainloop
 root.mainloop()
