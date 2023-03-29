@@ -214,7 +214,7 @@ def initiate(entry):
 
     server_conn=clientSock.recv(1024).decode()
 
-    opp_info = clientSock.recv(1024).decode().split(' ')
+    opp_info = clientSock.recv(1024).decode().split(',')
     opp_info[1] = opp_info[1][2:-1]
     print(opp_info)
 

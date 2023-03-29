@@ -1,7 +1,7 @@
 import socket
 import time
 
-UDP_IP_ADDRESS = '127.0.0.1'
+UDP_IP_ADDRESS = '192.168.180.171'
 UDP_PORT_NO = 6789
 
 serverSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -30,6 +30,6 @@ while True:
 
 	# serverSock.sendto(name1, client2)
 	# serverSock.sendto('client1', client2)
-	serverSock.sendto('"client1" {} {} {} {}'.format(name1, client1_addr, client1_port, UDP_PORT_NO).encode(), client2)
+	serverSock.sendto('"client1",{},{},{},{}'.format(name1, client1_addr, client1_port, UDP_PORT_NO).encode(), client2)
 	# serverSock.sendto(name2, client1)
-	serverSock.sendto('"client2" {} {} {} {}'.format(name2, client2_addr, client2_port, UDP_PORT_NO).encode(), client1)
+	serverSock.sendto('"client2",{},{},{},{}'.format(name2, client2_addr, client2_port, UDP_PORT_NO).encode(), client1)
