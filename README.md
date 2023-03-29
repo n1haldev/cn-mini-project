@@ -22,8 +22,8 @@ How to play this on your system?
 3. In the server machine run the command: ip addr show | awk '/inet /{print $2}' | cut -d/ -f1
 4. copy the ip address (not 127.0.0.1 as this address is loopback) which is output of the above command and paste it onto line 4 replacing existing address in the UDP_IP_ADDRESS = '{to paste what you copied!}'
 (IP address in the second line, 192.168.0.106 here)
-![image](https://user-images.githubusercontent.com/97780641/228596684-caaaa40c-f76d-4264-b752-622446b10c13.png)
 
+![image](https://user-images.githubusercontent.com/97780641/228596684-caaaa40c-f76d-4264-b752-622446b10c13.png)
 5. run the server code on the server machine using the command: python server_udp.py
 6. run the client code on the client machines using the command: python gui_client.py
 7. ENJOY!!!
