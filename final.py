@@ -16,7 +16,7 @@ x=0
 UDP_IP='127.0.0.1'
 UDP_PORT=6789
 
-clientSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
 
 
 def gameend():
@@ -208,6 +208,8 @@ def welcome_frame_to_gameframe():
 def initiate(entry):
     global name, opp_info
     name=entry
+    global clientSock
+    clientSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
     clientSock.sendto(name.encode(), (UDP_IP, UDP_PORT))
 
     server_conn=clientSock.recv(1024).decode()
