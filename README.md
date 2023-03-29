@@ -19,6 +19,8 @@ How to play this on your system?
 
 1. git clone the repo on three systems that run on the SAME NETWORK.
 2. One system will have to be server and the other two client.
-3. run the server code on the server machine using the command: python server_udp.py
-4. run the client code on the client machines using the command: python gui_client.py
-5. ENJOY!!!
+3. In the server machine run the command: ip addr show | awk '/inet /{print $2}' | cut -d/ -f1
+4. copy the ip address (not 127.0.0.1 as this address is loopback) which is output of the above command and paste it onto line 4 replacing existing address in the UDP_IP_ADDRESS = '{to paste what you copied!}'
+4. run the server code on the server machine using the command: python server_udp.py
+5. run the client code on the client machines using the command: python gui_client.py
+6. ENJOY!!!
