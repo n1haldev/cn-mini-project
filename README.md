@@ -13,7 +13,7 @@ UDP punch hole.
 
 The management of data is done on both the client systems thus leaving the server free to accept more requests from clients that want to play.
 
-This project was accomplished with team partners @arorapallavi and @niveditha-17
+This project was accomplished with team partners @arorapallavi and <a href="https://github.com/niveditha-17">@niveditha-17</a>
 
 How to play this on your system?
 
