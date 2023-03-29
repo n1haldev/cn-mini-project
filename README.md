@@ -24,6 +24,7 @@ How to play this on your system?
 (IP address in the second line, 192.168.0.106 here)
 
 ![image](https://user-images.githubusercontent.com/97780641/228596684-caaaa40c-f76d-4264-b752-622446b10c13.png)
+
 5. run the server code on the server machine using the command: python server_udp.py
 6. run the client code on the client machines using the command: python gui_client.py
 7. ENJOY!!!
